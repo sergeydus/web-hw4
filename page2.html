@@ -11,9 +11,8 @@
 <body>
   <div>
   <h1 id="welcomeMessage">
-      <img id="profileImage" src="">
-
   </h1>
+  <img id="profileImage" src="" width="200px" height="200px">
     <div id="imageUploadDiv" style="visibility:hidden;">
     <p>
       Upload a profile picture:
@@ -65,8 +64,12 @@
           var providerData = user.providerData;
           console.log(displayName +" "+ email+" "+uid);
           document.getElementById("welcomeMessage").innerHTML="Welcome "+email;
-          let temp=firebase.storage().ref().child('images/'+uid).getDownloadURL();
-          console.log(temp);
+          firebase.storage().ref().child('images/'+uid).getDownloadURL().then((e) =>{
+            console.log(e);
+            $("#profileImage").attr("src",e)
+          })
+          //console.log(temp);
+          //console.log("wakba "+temp['i']);
           $("#imageUploadDiv").css({visibility:"visible"});
 			} else {
 				// User is signed out.
@@ -87,16 +90,16 @@
 			var name = storageRef.child("images/" + id);
 			name.put(e.target.files[0]).then(function(snapshot){
 					name.getDownloadURL().then(function(url){
+            location.reload();
 						let ref = messagesRef.push();
 						ref.set({
 							type: "image",
 							message: url,
 							sender: email, 	
 						});
-						$("#uploadBtn").text('send a file');
 						$("input[type='file']").val(null);
 					}).catch(function(err){ console.log(err); });
-			}).catch(function(err){ console.log(err); $("#uploadBtn").text("didn't work out.. try again!");});
+			}).catch(function(err){ console.log(err);});
 		});
     console.log("test "+id);
   });
