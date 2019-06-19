@@ -9,11 +9,19 @@
 </head>
 
 <body>
+  <div>
   <h1 id="welcomeMessage">
+      <img id="profileImage" src="">
 
   </h1>
-  <button id="signoutButton" type="signoutButton">Sign out</button>
-
+    <div id="imageUploadDiv" style="visibility:hidden;">
+    <p>
+      Upload a profile picture:
+    </p>
+      <input type="file" accept="image/jpeg,image/png" >
+   </div>
+   <button id="signoutButton" type="signoutButton">Sign out</button>
+  </div>
   <!-- The core Firebase JS SDK is always required and must be listed first -->
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
@@ -22,6 +30,8 @@
 <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-storage.js"></script>
+
 
 <!-- TODO: Add SDKs for Firebase products that you want to use
      https://firebase.google.com/docs/web/setup#config-web-app -->
@@ -41,6 +51,7 @@
   firebase.initializeApp(firebaseConfig);
 </script>
 <script>
+  var id;
   $(document).ready(function(){
     firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
@@ -50,8 +61,13 @@
          var photoURL = user.photoURL;
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
+          id=uid;
           var providerData = user.providerData;
+          console.log(displayName +" "+ email+" "+uid);
           document.getElementById("welcomeMessage").innerHTML="Welcome "+email;
+          let temp=firebase.storage().ref().child('images/'+uid).getDownloadURL();
+          console.log(temp);
+          $("#imageUploadDiv").css({visibility:"visible"});
 			} else {
 				// User is signed out.
 				// ...
@@ -61,6 +77,28 @@
    $("#signoutButton").click(function(e){
     firebase.auth().signOut();
    });
+   $("input[type='file']").on('change', function(e){
+			if(e.target.files.length == 0){
+				console.log('cancelled');
+				return;
+			}
+			$("#uploadBtn").text('uploading...');
+			var storageRef = firebase.storage().ref();
+			var name = storageRef.child("images/" + id);
+			name.put(e.target.files[0]).then(function(snapshot){
+					name.getDownloadURL().then(function(url){
+						let ref = messagesRef.push();
+						ref.set({
+							type: "image",
+							message: url,
+							sender: email, 	
+						});
+						$("#uploadBtn").text('send a file');
+						$("input[type='file']").val(null);
+					}).catch(function(err){ console.log(err); });
+			}).catch(function(err){ console.log(err); $("#uploadBtn").text("didn't work out.. try again!");});
+		});
+    console.log("test "+id);
   });
 </script>   
 </body>
