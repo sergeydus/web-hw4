@@ -9,18 +9,10 @@
 </head>
 
 <body>
-  <div id='loginDiv'>
-      <div class="container">
-          <label id="emailLabel"><b>Email</b></label>
-          <input id="emailInput" type="text" placeholder="Enter Email" name="email">
-    
-          <label id="passwordLabel"><b>Password</b></label>
-          <input id="passwordInput" type="password" placeholder="Enter Password" name="psw">
-            
-          <button id="loginButton" type="loginButton">Login</button>
-          <button id="registerButton" type="registerButton">Register</button>
-        </div>
-  </div>
+  <h1 id="welcomeMessage">
+
+  </h1>
+  <button id="signoutButton" type="signoutButton">Sign out</button>
 
   <!-- The core Firebase JS SDK is always required and must be listed first -->
 <!-- The core Firebase JS SDK is always required and must be listed first -->
@@ -50,31 +42,6 @@
 </script>
 <script>
   $(document).ready(function(){
-    $("#registerButton").click(function(e){
-      e.preventDefault();
-      console.log("teset");
-      let email = $("#emailInput").val();
-    let pass = $("#passwordInput").val();
-    console.log(email + pass);
-      firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
-				    // Handle Errors here.
-				    var errorCode = error.code;
-				    var errorMessage = error.message;
-            alert(errorMessage);
-				});
-    });
-    $("#loginButton").click(function(e){
-      e.preventDefault();
-      let email = $("#emailInput").val();
-    let pass = $("#passwordInput").val();
-    console.log(email + pass);
-      firebase.auth().signInWithEmailAndPassword(email, pass).catch(function(error) {
-					// Handle Errors here.
-					var errorCode = error.code;
-					var errorMessage = error.message;
-					alert(errorMessage);
-				});
-    });
     firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
         var displayName = user.displayName;
@@ -84,13 +51,16 @@
           var isAnonymous = user.isAnonymous;
           var uid = user.uid;
           var providerData = user.providerData;
-				location.href = "page2.html";
+          document.getElementById("welcomeMessage").innerHTML="Welcome "+email;
 			} else {
 				// User is signed out.
 				// ...
+								location.href = "login.html";
 			}
 		});
-  
+   $("#signoutButton").click(function(e){
+    firebase.auth().signOut();
+   });
   });
 </script>   
 </body>
