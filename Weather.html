@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Current Weather</title>
+  <link rel="stylesheet" href="Weather.Css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,900" rel="stylesheet"> 
+</head>
+<body>
+	<div class="bg"></div>
+	<div>
+    <div id="description"></div>
+      <h1 id="temp"></h1>
+    <div id="location"></div>
+  </div>
+
+  <div class="container">
+    <div class="row from-group from-inline" id="rowDiv">
+        <input type="text" id="city" placeholder="City Name">
+        <button onclick="myFunc()" id="send">Search City</button>
+    </div>
+  </div>  
+  
+  <script src="Weather.JS"></script>
+
+</body>
+</html>
