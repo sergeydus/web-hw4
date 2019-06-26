@@ -31,14 +31,22 @@ function drawWeather( d ) {
   }
 }
 
+//get by defult
 window.onload = function() {
-
+	console.log(document.getElementById("city").value);
 	weatherBallon('London');	
 }
-/*
+
+function movePage3() {
+	
+	window.location.replace("Enter url of page here!");
+}
+
+//get from input
 function myFunc() {
 	var x = document.getElementById("city").value;
+	weatherBallon(x);	
 	console.log(x);
 	return x;
 }
-*/
+
