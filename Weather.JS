@@ -38,8 +38,14 @@ window.onload = function() {
 }
 
 function movePage3() {
-	
-	window.location.replace("Enter url of page here!");
+	let city =document.getElementById("city").value;
+	if(city == "" || city == null){
+		alert ("Please select a city.");
+		return;
+	}
+	console.log("the sity is:",city);
+	sessionStorage.setItem('city', city);
+	document.location.href ="page3.html";
 }
 
 //get from input
