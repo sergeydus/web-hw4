@@ -27,8 +27,9 @@
           document.getElementById("welcomeMessage").innerHTML="Welcome "+email;
           firebase.storage().ref().child('images/'+uid).getDownloadURL().then((e) =>{
             console.log(e);
-            $("#profileImage").attr("src",e)
-          })
+            $("#profileImage").attr("src",e);
+            $("#imagelink").attr("href",e);
+          });
           //console.log(temp);
           //console.log("wakba "+temp['i']);
           $("#imageUploadDiv").css({visibility:"visible"});
@@ -38,9 +39,16 @@
 								location.href = "login.html";
 			}
 		});
-   $("#signoutButton").click(function(e){
-    firebase.auth().signOut();
-   });
+    $("#logoutButton").click(function(e) {
+      e.preventDefault();
+      console.log("logout");
+      firebase.auth().signOut().then(function() {
+        document.location.replace ="login.html";
+      }, function(error) {
+        // An error happened.
+        console.error(error);
+      });
+    });
    $("input[type='file']").on('change', function(e){
 			if(e.target.files.length == 0){
 				console.log('cancelled');
