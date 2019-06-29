@@ -1,4 +1,5 @@
 
+
   // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyAxQL_7W1okSepYdUcyw-M-tvO7-ota1yY",
@@ -33,6 +34,7 @@
           //console.log(temp);
           //console.log("wakba "+temp['i']);
           $("#imageUploadDiv").css({visibility:"visible"});
+          $("#NextPageButton").css({visibility:"visible"});
 			} else {
 				// User is signed out.
 				// ...
