@@ -53,13 +53,13 @@ $(document).ready(function(){
     startdate =($("#startdate").val());
     enddate =($("#enddate").val());
     if(startdate==''|| enddate==''){
-      alert("please enter a proper date/s.");
+      alert("Please enter a proper date/s.");
       return;
     }
     startdate = new Date(startdate);
     enddate = new Date(enddate);
     if(enddate.getTime()<startdate.getTime()){
-      alert("Start date needs to be before End Date!");
+      alert("The Start date needs to be before the End Date!");
       return;
     }
     if(!checkvaliddate(startdate.getTime(),enddate.getTime())){
