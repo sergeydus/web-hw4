@@ -9,6 +9,7 @@ function weatherBallon( cityName ) {
 		drawWeather(data);
 	})
 	.catch(function(e) {
+		alert("City not found!")
 		console.log(e);
 		// catch any errors
 	});
