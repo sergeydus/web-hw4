@@ -1,4 +1,5 @@
 const key = '2013cbb8d05f985325a7945757d64373';
+var validcity = false;
 if(key=='') document.getElementById('temp').innerHTML = ('Remember to add your api key!');
 
 function weatherBallon( cityName ) {
@@ -6,11 +7,13 @@ function weatherBallon( cityName ) {
 	.then(function(resp) { return resp.json() }) // Convert data to json
 	.then(function(data) {
 		console.log(data);
+		validcity=true;
 		drawWeather(data);
 	})
 	.catch(function(e) {
 		alert("City not found!")
 		console.log(e);
+		validcity =false;
 		// catch any errors
 	});
 }
@@ -55,7 +58,7 @@ window.onload = function() {
 
 function movePage3() {
 	let city =document.getElementById("city").value;
-	if(city == "" || city == null){
+	if(city == "" || city == null || !validcity){
 		alert ("Please select a city.");
 		return;
 	}
